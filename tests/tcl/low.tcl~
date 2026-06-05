@@ -1,0 +1,15 @@
+Test "bundler" {
+    
+    fn {
+        name = 'runDeltas'
+        dependency = []
+    }
+        
+    input {
+        []
+    }
+    
+    output {
+        539
+    }
+}

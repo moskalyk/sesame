@@ -1,0 +1,26 @@
+{
+  "name": "sesame",
+  "version": "0.0.1",
+  "description": "simple music app for finding smart rythms with minute memory",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node ./tests/index.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gihub.com/moskalyk/sesame"
+  },
+  "keywords": [
+    "hoon",
+    "scry",
+    "music",
+    "NI",
+    "time"
+  ],
+  "author": "~zod",
+  "license": "ISC"
+}
