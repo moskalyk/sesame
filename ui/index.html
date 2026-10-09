@@ -93,26 +93,47 @@
         const range = Array.from({ length: n + 1 }, (v, k) => k);
         
         // check local storage if {hered: , index: }
+        const present = localStorage.getItem(minutes)
+        let listening 
+        
         // if nothing, then add a random
+        if(!present) {
+            listening = {hered: (Math.floor(Math.random()*Object.keys(tracks).length) + 1), index: 0}
+            localStorage.setItem(minutes, JSON.stringify(listening))
+        } else {
+            listening = JSON.parse(present)
+        }
         
+        const ran = listening.hered
+        let index = JSON.parse(present).index
         // load next (in line) and previous
-        const ran = (minutes % Object.keys(tracks).length) + 1
-        let index = 0
-        
+
         const next = () => {
+            const present = JSON.parse(localStorage.getItem(minutes))
+     
+
             const vid = document.getElementById('vid')
             index = (index + 1) % tracks[ran].length
+            
+            present.index = index
+            localStorage.setItem(minutes, JSON.stringify(present))
+            
             vid.src = tracks[ran][index]
             onLoad()
         }
         
         const prev = () => {
+            const present = JSON.parse(localStorage.getItem(minutes))
+
             const vid = document.getElementById('vid')
             if(index == 0){
                 index = tracks[ran].length - 1
             } else {
                 index = (index - 1)
             }
+            
+            present.index = index
+            localStorage.setItem(minutes, JSON.stringify(present))
             
             vid.src = tracks[ran][index]
             onLoad()
