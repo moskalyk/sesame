@@ -1,0 +1,183 @@
+<html>
+    <style>
+        body {
+            font-family: 'Courier', monospace;
+        }
+        
+        .center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+            margin: 0 auto;
+        }
+        .arrows {
+          width: 48px;
+          height: 48px;
+          border-color: #000;
+          position: absolute;
+          top: 50%;
+          margin-top: -31px;
+          cursor: grab;
+        }
+
+        .prev {
+          border-bottom: 6px solid;
+          border-left: 6px solid;
+          transform: rotate(45deg);
+          left: -200px;
+          position: relative;
+        }
+
+        .next {
+          border-bottom: 6px solid;
+          border-left: 6px solid;
+          transform: rotate(-135deg);
+          right: -200px;
+          position: relative;
+        }
+
+        #vid {
+            margin: 30px;
+        }
+        
+        .vid {
+            margin: 30px;
+        }
+    </style>
+    <body>
+        <br/>
+        <p class='center' style='font-size: 30px'>sesame</p>
+        <p class='center' style='font-size: 17px'>same time?</p>
+        <br/>
+        <br/>
+        <br/>
+        <div class='center'>
+            <iframe  id='vid' width="1000" height="600" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div style='margin: 0 auto; width: 850px;'>
+            <span style='text-align: left'>nexts</span>    
+        </div>
+        <div class='center'>
+            <div class="arrows prev" onclick='prev()'></div>
+            <iframe  id='vid-pre' class='vid' width="390" height="195" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+            <iframe  id='vid-nex' class='vid' width="390" height="195" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+            <div class="arrows next" onclick='next()'></div>
+        </div>
+        </div>
+    </body>
+    <script>
+
+        const tracks = {
+            6: ['https://www.youtube.com/embed/gFLKkD73U2U?si=ZLvoSR6xFSXgRIeo','https://www.youtube.com/embed/ak24r6AFmZA?si=szbW56po_imR4oZn','https://www.youtube.com/embed/UUGVVx5zMJI?si=TD2yfIJIiW3bP8Nw','https://www.youtube.com/embed/EY8vSY8QAtk?si=zZA_GSCTIa_9vMph'], // lines as similiar artist / dj themes to extend wasch
+            1: ['https://www.youtube.com/embed/8Os0Ab1tKzE?si=J3HSgxAPhaXav69G','https://www.youtube.com/embed/PLyw2tFCFBI?si=gyhcR4o60Ex12c6o'],
+            2: ['https://www.youtube.com/embed/a3jaaWXXBdI?si=BXhjKhuFEuYPFpDF','https://www.youtube.com/embed/uhG-vLZrb-g?si=OWjkILUXMaBCsitj','https://www.youtube.com/embed/fk1Q9y6VVy0?si=J00ubu1DXciohZF4','https://www.youtube.com/embed/K7l5ZeVVoCA?si=_z24ngbETrVN5PEN','https://www.youtube.com/embed/Ud2eziOjjTo?si=3g8yOY9utaSE5zfc','https://www.youtube.com/embed/8bbTtPL1jRs?si=EZKlqRk4wpIDoPh2'],
+            3: ['https://www.youtube.com/embed/7iNJrT6Hilg?si=URNep22uehX0zGEx','https://www.youtube.com/embed/XWfsC1pDgwM?si=zw7vbFkkx2U4iBb5','https://www.youtube.com/embed/90IZbAJZsws?si=oLuVJZXQeCIXfMqE'],
+            4: ['https://www.youtube.com/embed/bQa8Dadmj7Y?si=MUHbbwbY4Ag-n0cw','https://www.youtube.com/embed/5tIVVEIdu2g?si=4bbL9VaFUVtaQrrz','https://www.youtube.com/embed/Gf-fCJ6TkRU?si=htmL0I5FjHVFxh2A'],
+            5: ['https://www.youtube.com/embed/tJnzKWKhRUM?si=VV4h1XqDAibmEs9u','https://www.youtube.com/embed/tY8teI6653M?si=dlQcbqPX5HEDdIVf','https://www.youtube.com/embed/dO_IL-72C4o?si=DC2C7e__YmvPp5h0','https://www.youtube.com/embed/FVPyymIykBw?si=mPwqsPwrVtMUhTQu']
+        }
+        
+        const d = new Date();
+        let minutes = d.getMinutes();
+        
+        // array of minuts from 0 - 59
+        const n = 59
+        const range = Array.from({ length: n + 1 }, (v, k) => k);
+        
+        // check local storage if {hered: , index: }
+        const present = localStorage.getItem(minutes)
+        let listening 
+        
+        // if nothing, then add a random
+        if(!present) {
+            listening = {hered: (Math.floor(Math.random()*Object.keys(tracks).length) + 1), index: 0}
+            localStorage.setItem(minutes, JSON.stringify(listening))
+        } else {
+            listening = JSON.parse(present)
+        }
+        
+        const ran = listening.hered
+        let index = JSON.parse(present).index
+        // load next (in line) and previous
+
+        const next = () => {
+            const present = JSON.parse(localStorage.getItem(minutes))
+     
+
+            const vid = document.getElementById('vid')
+            index = (index + 1) % tracks[ran].length
+            
+            present.index = index
+            localStorage.setItem(minutes, JSON.stringify(present))
+            
+            vid.src = tracks[ran][index]
+            onLoad()
+        }
+        
+        const prev = () => {
+            const present = JSON.parse(localStorage.getItem(minutes))
+
+            const vid = document.getElementById('vid')
+            if(index == 0){
+                index = tracks[ran].length - 1
+            } else {
+                index = (index - 1)
+            }
+            
+            present.index = index
+            localStorage.setItem(minutes, JSON.stringify(present))
+            
+            vid.src = tracks[ran][index]
+            onLoad()
+        }
+        
+        const onInit = () => {
+            const vid = document.getElementById('vid')
+            vid.src = tracks[ran][index]
+        
+        }
+        
+        const onLoad = () => {
+            // load next and prev
+            const vidNext = document.getElementById('vid-nex')
+
+            vidNext.src = tracks[ran][(index + 1) % tracks[ran].length]
+            
+            const vidPre = document.getElementById('vid-pre')
+            if(index == 0){
+                vidPre.src = tracks[ran][tracks[ran].length - 1]
+            } else {
+                vidPre.src = tracks[ran][index - 1]
+            }
+        }
+        
+        // todo hoon
+        
+        onInit()
+        onLoad() // load pre and nex
+        
+        // on save (finished song)
+        // on load (share reference url with saved progress)
+        // on poke (get minute, if not set new)
+        
+        // on watch (drop a timing as forgetting to new day of week)
+        
+        // on agent (sign in)
+        // on arvo (random and history)
+        
+        // on peek (next & prev)
+        
+        // on fail (internet connection)
+        
+        // https://www.xjavascript.com/blog/javascript-callback-when-iframe-is-finished-loading/
+    </script>
+</html>
+
