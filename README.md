@@ -1,8 +1,8 @@
 # sesame
-an inspiration from door.link, recieveing updates to an UI when similiar time has been achieved
+an inspiration from door.link, receiveing updates to a UI when similiar time has been achieved. this case, songs and mixes
 
 ## spec
-a project that aligns the days of the week with song queues, based on past history 'dat' time has listened to by visiting page or accessing an application feautre
+a project that aligns the days of the week with song queues, based on past history 'dat' time has listened to by visiting page or accessing an application feature
 
 *5:52PM EST*
 | friday      |      saturday             |    sunday             |
@@ -21,9 +21,13 @@ a project that aligns the days of the week with song queues, based on past histo
 |X | | |
 
 ### approach
-remote scry from hoon string
-deltas http frmwrk
+remote and agent sign in, then localstorage
 
-TODO: vfaas network
+prior test: remote scry from hoon string
+remote: deltas http frmwrk
+
+#### TODO: 
+- [ ] gall hoon compiler
+- [ ] vfaas network
 
 
